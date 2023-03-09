@@ -146,7 +146,7 @@ function deleteDupe(array) {
 
 function buildBoard() {
     let board = [];
-    for (let i = 8; i >= 0; i--) {
+    for (let i = 7; i >= 0; i--) {
         let row = [];
         for (let j = 0; j < 8; j++) {
             row.push(`[${[j, i]}]`)
@@ -185,6 +185,6 @@ function driverScript() {
 
 }
 
-// driverScript();
+driverScript();
 
 
