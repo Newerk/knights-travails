@@ -165,6 +165,8 @@ function buildBoard() {
         [${board[7]}]
 ]
 `)
+
+    return board;
 }
 buildBoard();
 
@@ -187,4 +189,71 @@ function driverScript() {
 
 driverScript();
 
+const knightTraversal = (array) => {
+    //shows the next value of the 4 directions a knight can take
+    let min = 0;
+    let max = 7;
+    const routes = [];
 
+    const moveValidityCheck = (arr) => {
+        arr.forEach(el => {
+            if (el[0] < min) {
+                el[0] = null;
+            }
+            if (el[1] > max) {
+                el[1] = null;
+            }
+            if (el[1] < min) {
+                el[1] = null;
+            }
+            if (el[0] > max) {
+                el[0] = null;
+            }
+        })
+
+        let removeNulls = arr.filter(el => el[0] !== null && el[1] !== null)
+
+        return removeNulls;
+    }
+
+    let up = [array[0], array[1] + 1];
+    let down = [array[0], array[1] - 1];
+    let left = [array[0] + 1, array[1]];
+    let right = [array[0] - 1, array[1]];
+
+    routes.push(up)
+    routes.push(down)
+    routes.push(left)
+    routes.push(right)
+
+    switch (moveValidityCheck(routes).length) {
+        case 8:
+            console.log(`the knight has 8 different routes`)
+            break;
+        case 7:
+            console.log(`the knight has 7 different routes`)
+            break;
+
+        case 6:
+            console.log(`the knight has 6 different routes`)
+            break;
+
+        case 5:
+            console.log(`the knight has 5 different routes`)
+            break;
+
+        case 4:
+            console.log(`the knight has 4 different routes`)
+            break;
+
+        case 3:
+            console.log(`the knight has 3 different routes`)
+            break;
+
+        case 2:
+            console.log(`the knight has 2 different routes`)
+            break;
+    }
+}
+
+knightTraversal([0, 0]);
