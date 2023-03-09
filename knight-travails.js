@@ -216,15 +216,34 @@ const knightTraversal = (array) => {
         return removeNulls;
     }
 
-    let up = [array[0], array[1] + 1];
-    let down = [array[0], array[1] - 1];
-    let left = [array[0] + 1, array[1]];
-    let right = [array[0] - 1, array[1]];
+    //knight's moveset
+    const moveset = [
+        // const oneUp_twoLeft = 
+        [array[0] - 2, array[1] + 1],
 
-    routes.push(up)
-    routes.push(down)
-    routes.push(left)
-    routes.push(right)
+        // const oneUp_twoRight = 
+        [array[0] + 2, array[1] + 1],
+
+        // const twoUp_oneLeft = 
+        [array[0] - 1, array[1] + 2],
+
+        // const twoUp_oneRight = 
+        [array[0] + 1, array[1] + 2],
+
+        // const oneDown_twoLeft = 
+        [array[0] - 2, array[1] - 1],
+
+        // const oneDown_twoRight = 
+        [array[0] + 2, array[1] - 1],
+
+        // const twoDown_oneLeft = 
+        [array[0] - 1, array[1] - 2],
+
+        // const twoDown_oneRight = 
+        [array[0] + 1, array[1] - 2],
+    ]
+
+    moveset.forEach(el => routes.push(el))
 
     switch (moveValidityCheck(routes).length) {
         case 8:
@@ -256,4 +275,4 @@ const knightTraversal = (array) => {
     }
 }
 
-knightTraversal([0, 0]);
+knightTraversal([4, 4]);
