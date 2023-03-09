@@ -171,7 +171,7 @@ function buildBoard() {
 buildBoard();
 
 //This will choose a random starting point on the chess board, and choose and random end point. It will then console log the amount of moves made and the path taken
-function driverScript() {
+function knightLocation() {
     const getRandomInt = (min, max) => {
         min = Math.ceil(min);
         max = Math.floor(max);
@@ -181,15 +181,14 @@ function driverScript() {
     let startPosition = [getRandomInt(0, 7), getRandomInt(0, 7)];
     let endPosition = [getRandomInt(0, 7), getRandomInt(0, 7)];
 
-    console.log(`
-    starting position: ${startPosition}
-    ending position: ${endPosition}`);
-
+    return {
+        startPosition,
+        endPosition
+    }
 }
 
-driverScript();
-
-const knightTraversal = (array) => {
+const nextValidLocation = (array = knightLocation().startPosition) => {
+    console.log('start position: ' + array)
     //shows the next value of the 4 directions a knight can take
     let min = 0;
     let max = 7;
@@ -243,12 +242,18 @@ const knightTraversal = (array) => {
         [array[0] + 1, array[1] - 2],
     ]
 
-    moveset.forEach(el => routes.push(el))
+    moveset.forEach(el => {
+        routes.push(el)
+    })
+
+    console.log(`valid spots: ${moveValidityCheck(routes)}`);
+
 
     switch (moveValidityCheck(routes).length) {
         case 8:
             console.log(`the knight has 8 different routes`)
             break;
+
         case 7:
             console.log(`the knight has 7 different routes`)
             break;
@@ -275,4 +280,4 @@ const knightTraversal = (array) => {
     }
 }
 
-knightTraversal([4, 4]);
+nextValidLocation();
