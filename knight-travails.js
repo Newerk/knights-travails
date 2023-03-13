@@ -171,7 +171,7 @@ function buildBoard() {
 buildBoard();
 
 //This will choose a random starting point on the chess board, and choose and random end point. It will then console log the amount of moves made and the path taken
-function knightLocation() {
+function randomKnightLocation() {
     const getRandomInt = (min, max) => {
         min = Math.ceil(min);
         max = Math.floor(max);
@@ -187,9 +187,8 @@ function knightLocation() {
     }
 }
 
-const nextValidLocation = (array = knightLocation().startPosition) => {
+const nextValidLocation = (array = randomKnightLocation().startPosition) => {
     console.log('start position: ' + array)
-    //shows the next value of the 4 directions a knight can take
     let min = 0;
     let max = 7;
     const routes = [];
@@ -217,28 +216,13 @@ const nextValidLocation = (array = knightLocation().startPosition) => {
 
     //knight's moveset
     const moveset = [
-        // const oneUp_twoLeft = 
         [array[0] - 2, array[1] + 1],
-
-        // const oneUp_twoRight = 
         [array[0] + 2, array[1] + 1],
-
-        // const twoUp_oneLeft = 
         [array[0] - 1, array[1] + 2],
-
-        // const twoUp_oneRight = 
         [array[0] + 1, array[1] + 2],
-
-        // const oneDown_twoLeft = 
         [array[0] - 2, array[1] - 1],
-
-        // const oneDown_twoRight = 
         [array[0] + 2, array[1] - 1],
-
-        // const twoDown_oneLeft = 
         [array[0] - 1, array[1] - 2],
-
-        // const twoDown_oneRight = 
         [array[0] + 1, array[1] - 2],
     ]
 
@@ -246,38 +230,49 @@ const nextValidLocation = (array = knightLocation().startPosition) => {
         routes.push(el)
     })
 
-    console.log(`valid spots: ${moveValidityCheck(routes)}`);
-
-
     switch (moveValidityCheck(routes).length) {
         case 8:
-            console.log(`the knight has 8 different routes`)
+            console.log(`the knight cant land on 8 different locations`)
             break;
 
         case 7:
-            console.log(`the knight has 7 different routes`)
+            console.log(`the knight cant land on 7 different locations`)
             break;
 
         case 6:
-            console.log(`the knight has 6 different routes`)
+            console.log(`the knight cant land on 6 different locations`)
             break;
 
         case 5:
-            console.log(`the knight has 5 different routes`)
+            console.log(`the knight cant land on 5 different locations`)
             break;
 
         case 4:
-            console.log(`the knight has 4 different routes`)
+            console.log(`the knight cant land on 4 different locations`)
             break;
 
         case 3:
-            console.log(`the knight has 3 different routes`)
+            console.log(`the knight cant land on 3 different locations`)
             break;
 
         case 2:
-            console.log(`the knight has 2 different routes`)
+            console.log(`the knight cant land on 2 different locations`)
             break;
     }
+
+    return moveValidityCheck(routes);
 }
 
-nextValidLocation();
+function knightMove(startArray, endArray) {
+    let nextMoves = nextValidLocation(startArray);
+    nextMoves.forEach(el => {
+        if (el.toString() === endArray.toString()) {
+            console.log('next move will be the last')
+        } else {
+            console.log('try a different move');
+        }
+    })
+}
+
+knightMove([0, 0], [5, 1]);
+
