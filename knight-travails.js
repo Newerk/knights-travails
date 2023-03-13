@@ -132,23 +132,32 @@ class Node {
     constructor(data) {
         let count = 0;
         this.data = data;
-
         nextValidLocation(this.data).forEach(el => {
-            this[`child${count += 1}`] = el
+                this[`child${count += 1}`] = el;
         })
     }
 
 }
 
-// function knightMove(startArray, endArray) {
-//     let nextMoves = nextValidLocation(startArray);
+function knightMove(startArray, endArray) {
+    let nextMoves = nextValidLocation(startArray);
 
-// }
+
+}
+
+let one = new Node([0, 0]);
+let two = new Node(one.child1);
+
+
+console.log(two) // the issue i have is showing a move that was already done in the next step. have to figure out how to avoid that so a knight never repeats a move,
+//this would cause situations where a knight will be stuck going back and forth infinitely
+
+//maybe I can make a seperate remove child function that checks for a previously visited spot and remove it from the list of children in a node. This will create a proper graph/tree
+//to traverse through
+
 
 // knightMove([0, 0], [5, 1]);
 
-let moves = new Node([0, 0]);
 
-console.log(moves);
 
 
