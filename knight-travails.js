@@ -154,6 +154,9 @@ console.log(two) // the issue i have is showing a move that was already done in 
 
 //maybe I can make a seperate remove child function that checks for a previously visited spot and remove it from the list of children in a node. This will create a proper graph/tree
 //to traverse through
+function removeVistedLocation() {
+    
+}
 
 
 // knightMove([0, 0], [5, 1]);
