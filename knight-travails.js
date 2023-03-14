@@ -22,7 +22,7 @@ function buildBoard() {
 
     return board;
 }
-buildBoard();
+// buildBoard();
 
 //This will choose a random starting point on the chess board, and choose and random end point. It will then console log the amount of moves made and the path taken
 function randomKnightLocation() {
@@ -83,35 +83,35 @@ const nextValidLocation = (array = randomKnightLocation().startPosition) => {
         routes.push(el)
     })
 
-    switch (moveValidityCheck(routes).length) {
-        case 8:
-            console.log(`the knight cant land on 8 different locations`)
-            break;
+    // switch (moveValidityCheck(routes).length) {
+    //     case 8:
+    //         console.log(`the knight can land on 8 different locations`)
+    //         break;
 
-        case 7:
-            console.log(`the knight cant land on 7 different locations`)
-            break;
+    //     case 7:
+    //         console.log(`the knight can land on 7 different locations`)
+    //         break;
 
-        case 6:
-            console.log(`the knight cant land on 6 different locations`)
-            break;
+    //     case 6:
+    //         console.log(`the knight can land on 6 different locations`)
+    //         break;
 
-        case 5:
-            console.log(`the knight cant land on 5 different locations`)
-            break;
+    //     case 5:
+    //         console.log(`the knight can land on 5 different locations`)
+    //         break;
 
-        case 4:
-            console.log(`the knight cant land on 4 different locations`)
-            break;
+    //     case 4:
+    //         console.log(`the knight can land on 4 different locations`)
+    //         break;
 
-        case 3:
-            console.log(`the knight cant land on 3 different locations`)
-            break;
+    //     case 3:
+    //         console.log(`the knight can land on 3 different locations`)
+    //         break;
 
-        case 2:
-            console.log(`the knight cant land on 2 different locations`)
-            break;
-    }
+    //     case 2:
+    //         console.log(`the knight can land on 2 different locations`)
+    //         break;
+    // }
 
     return moveValidityCheck(routes);
 }
@@ -128,39 +128,71 @@ function deleteDupe(array) {
     return noDupes;
 }
 
+
 class Node {
     constructor(data) {
         let count = 0;
         this.data = data;
+        this.children = {};
         nextValidLocation(this.data).forEach(el => {
-                this[`child${count += 1}`] = el;
+            if (true) {
+                this.children[`child${count += 1}`] = el;
+            }
         })
     }
 
 }
 
+// function bfs(start, end) {
+//     let queue = [start];
+//     let visited = [];
+
+//     while (queue.length > 0) {
+//         let spot = queue.shift();
+//         visited.push(spot);
+
+//         for (const key in spot.children) {
+//             const element = object[key];
+
+//             if (element.toString() !== end.toString) {
+//                 queue.push(element)   
+//             } else {
+//                 console.log('endpoint found')
+//             }
+//         }
+
+//     }
+
+// }
+
 function knightMove(startArray, endArray) {
-    let nextMoves = nextValidLocation(startArray);
+    let start = new Node(startArray);
+    let queue = [start.data];
+    let visited = [];
 
+    console.log(`queue: ${queue}`)
+
+    while (queue.length > 0) {
+        let spot = queue.shift();
+        if (spot.toString() !== endArray.toString()) {
+            visited.push(spot);
+            nextValidLocation(spot).forEach(el => {
+                if (!JSON.stringify(visited).includes(JSON.stringify(el))) {
+                    queue.push(el)
+                }
+            })
+            console.log(`queue: ${queue}`);
+            console.log(`visited: ${visited}`)
+
+
+        } else {
+            console.log(`FOUND!`)
+            return;
+        }
+    }
 
 }
 
-let one = new Node([0, 0]);
-let two = new Node(one.child1);
 
-
-console.log(two) // the issue i have is showing a move that was already done in the next step. have to figure out how to avoid that so a knight never repeats a move,
-//this would cause situations where a knight will be stuck going back and forth infinitely
-
-//maybe I can make a seperate remove child function that checks for a previously visited spot and remove it from the list of children in a node. This will create a proper graph/tree
-//to traverse through
-function removeVistedLocation() {
-    
-}
-
-
-// knightMove([0, 0], [5, 1]);
-
-
-
+knightMove([0, 0], [3, 3]);
 
