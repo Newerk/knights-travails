@@ -1,29 +1,3 @@
-function buildBoard() {
-    let board = [];
-    for (let i = 7; i >= 0; i--) {
-        let row = [];
-        for (let j = 0; j < 8; j++) {
-            row.push(`[${[j, i]}]`)
-        }
-        board.push(row)
-    }
-
-    console.log(`[
-        [${board[0]}]
-        [${board[1]}]
-        [${board[2]}]
-        [${board[3]}]
-        [${board[4]}]
-        [${board[5]}]
-        [${board[6]}]
-        [${board[7]}]
-]
-`)
-
-    return board;
-}
-// buildBoard();
-
 //This will choose a random starting point on the chess board, and choose and random end point. It will then console log the amount of moves made and the path taken
 function randomKnightLocation() {
     const getRandomInt = (min, max) => {
@@ -41,7 +15,7 @@ function randomKnightLocation() {
     }
 }
 
-const nextValidLocation = (array = randomKnightLocation().startPosition) => {
+const nextValidLocations = (array = randomKnightLocation().startPosition) => {
     let min = 0;
     let max = 7;
     const routes = [];
@@ -83,36 +57,6 @@ const nextValidLocation = (array = randomKnightLocation().startPosition) => {
         routes.push(el)
     })
 
-    // switch (moveValidityCheck(routes).length) {
-    //     case 8:
-    //         console.log(`the knight can land on 8 different locations`)
-    //         break;
-
-    //     case 7:
-    //         console.log(`the knight can land on 7 different locations`)
-    //         break;
-
-    //     case 6:
-    //         console.log(`the knight can land on 6 different locations`)
-    //         break;
-
-    //     case 5:
-    //         console.log(`the knight can land on 5 different locations`)
-    //         break;
-
-    //     case 4:
-    //         console.log(`the knight can land on 4 different locations`)
-    //         break;
-
-    //     case 3:
-    //         console.log(`the knight can land on 3 different locations`)
-    //         break;
-
-    //     case 2:
-    //         console.log(`the knight can land on 2 different locations`)
-    //         break;
-    // }
-
     return moveValidityCheck(routes);
 }
 
@@ -128,71 +72,86 @@ function deleteDupe(array) {
     return noDupes;
 }
 
+class Graph {
+    constructor(verticies) {
+        this.verticies = verticies;
+        this.edges = {};
+        let count = 0;
+        let visited = [this.verticies]
+        nextValidLocations(this.verticies).forEach(el => {
+            if (!visited.includes(el)) {
+                this.edges[`edge${count += 1}`] = new Node(el);
+                visited.push(el)
+            }
+        })
+
+    }
+}
 
 class Node {
     constructor(data) {
         let count = 0;
         this.data = data;
         this.children = {};
-        nextValidLocation(this.data).forEach(el => {
-            if (true) {
-                this.children[`child${count += 1}`] = el;
-            }
+        nextValidLocations(this.data).forEach(el => {
+            this.children[`child${count += 1}`] = el;
         })
     }
-
 }
 
-// function bfs(start, end) {
-//     let queue = [start];
-//     let visited = [];
+function knightMove(start, end) {
+    let node = new Node(start);
+    let path = [start]
 
-//     while (queue.length > 0) {
-//         let spot = queue.shift();
-//         visited.push(spot);
-
-//         for (const key in spot.children) {
-//             const element = object[key];
-
-//             if (element.toString() !== end.toString) {
-//                 queue.push(element)   
-//             } else {
-//                 console.log('endpoint found')
-//             }
-//         }
-
-//     }
-
-// }
-
-function knightMove(startArray, endArray) {
-    let start = new Node(startArray);
-    let queue = [start.data];
-    let visited = [];
-
-    console.log(`queue: ${queue}`)
-
-    while (queue.length > 0) {
-        let spot = queue.shift();
-        if (spot.toString() !== endArray.toString()) {
-            visited.push(spot);
-            nextValidLocation(spot).forEach(el => {
-                if (!JSON.stringify(visited).includes(JSON.stringify(el))) {
-                    queue.push(el)
-                }
-            })
-            console.log(`queue: ${queue}`);
-            console.log(`visited: ${visited}`)
-
-
-        } else {
-            console.log(`FOUND!`)
-            return;
-        }
+    for (const key in node.children) {
+        const value = node.children[key];
     }
 
 }
 
+function breadthFirstSearch(root, value) {
+    let queue = [root];
+    let visited = [];
 
-knightMove([0, 0], [3, 3]);
+    while (queue.length > 0) {
+        let first = queue.shift();
+        visited.push(first.data)
 
+        if (first.data.toString() !== value.toString()) {
+            for (const key in first.children) {
+                const element = first.children[key];
+                let node = new Node(element);
+                if (element.toString() === value.toString()) {
+                    console.log(`found value`)
+                    visited.push(value);
+                    console.log(`visted: ${visited}`)
+                    return;
+                }
+                queue.push(node)
+
+            }
+        }
+
+    }
+}
+
+
+
+//is a location was already visited and its a child of a node, remove it
+function removeChild(children, visited) {
+    for (const key in children) {
+        const element = children[key];
+        if (JSON.stringify(visited).includes(JSON.stringify(element))) {
+            delete element;
+        }
+    }
+}
+
+// console.log(knightMove([0, 0], [3, 3]));
+
+// console.log(nextValidLocations([3, 3]))
+
+
+let node = new Node([2, 5]);
+
+console.log(breadthFirstSearch(node, [3, 5]));
