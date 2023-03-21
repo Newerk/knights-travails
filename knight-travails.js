@@ -112,10 +112,13 @@ function knightMove(start, end) {
 function breadthFirstSearch(root, value) {
     let queue = [root];
     let visited = [];
+    let paths = [];
+    let currentPath = [];
 
     while (queue.length > 0) {
         let first = queue.shift();
         visited.push(first.data)
+        currentPath.push(first.data);
 
         if (first.data.toString() !== value.toString()) {
             for (const key in first.children) {
@@ -125,7 +128,7 @@ function breadthFirstSearch(root, value) {
                     console.log(`found value`)
                     visited.push(value);
                     console.log(`visted: ${visited}`)
-                    return;
+                    // return;
                 }
                 queue.push(node)
 
@@ -133,6 +136,7 @@ function breadthFirstSearch(root, value) {
         }
 
     }
+    return paths;
 }
 
 
@@ -149,9 +153,9 @@ function removeChild(children, visited) {
 
 // console.log(knightMove([0, 0], [3, 3]));
 
-// console.log(nextValidLocations([3, 3]))
+// console.log(nextValidLocations([0, 6]))
 
 
-let node = new Node([2, 5]);
+let node = new Node([3, 3]);
 
-console.log(breadthFirstSearch(node, [3, 5]));
+console.log(breadthFirstSearch(node, [0, 0]));
