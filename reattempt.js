@@ -38,7 +38,48 @@ class UndirectedGraph {
         return false;
     }
 
+    // return the amount of edges to reach a value
+    edgeNumber(value, root = this.vertices[0]) {
+        let queue = [root];
+        let visited = [root];
+        let visitedLength = visited.length;
+        let edges = {};
+        let count = 0;
+
+        console.log(`visited length: ${visitedLength}`)
+
+
+        while (queue.length > 0) {
+            let first = queue.shift();
+
+            if (first === value) {
+                edges[first] = count;
+                return count;
+            } else {
+                this.adjacent[first].forEach(el => {
+                    if (!visited.includes(el)) {
+                        queue.push(el);
+                        visited.push(el);
+                    }
+                })
+                
+                //update count when a a completely new value or values is added to the visted arr during an iteration. perhaps level order is the best way
+                //it should not update count on every iteration, only when visiting is receiving new values during an iteration.
+
+            }
+            visitedLength = visited.length;
+
+            //my current thought process for this approach. When the value of length of the visited array changes, then count will add 1
+            //for this current exmaple graph, count should be 4 at the end
+            console.log(`visited length: ${visitedLength}`)
+
+        }
+
+        // return count;
+    }
+
 }
+
 
 function moveValidityCheck(arr) {
     let min = 0;
@@ -71,6 +112,7 @@ const oneSpaceMovement = (startingLocationArray) => {
         [startingLocationArray[0], startingLocationArray[1] - 1],
         [startingLocationArray[0], startingLocationArray[1] + 1]
     ]
+
     return moveset
 }
 
@@ -99,7 +141,6 @@ function avaliableLocations(moveset) {
     return moveValidityCheck(routes);
 }
 
-
 function buildBoard() {
     let board = new UndirectedGraph();
     for (let i = 7; i >= 0; i--) {
@@ -115,5 +156,27 @@ function buildBoard() {
 }
 
 // console.log(buildBoard().adjacent);
-console.log(buildBoard().breadthFirstSearch([0, 7], [1, 5]));
+// console.log(buildBoard().breadthFirstSearch([0, 7], [1, 5]));
+
+let example = new UndirectedGraph();
+example.addVertex('A');
+example.addVertex('B');
+example.addVertex('C');
+example.addVertex('D');
+example.addVertex('E');
+example.addVertex('F');
+example.addVertex('G');
+example.addEdge('A', 'B');
+example.addEdge('A', 'C');
+example.addEdge('A', 'D');
+example.addEdge('B', 'C');
+example.addEdge('B', 'D');
+example.addEdge('C', 'D');
+example.addEdge('C', 'E');
+example.addEdge('D', 'F');
+example.addEdge('F', 'G');
+
+console.log(example.edgeNumber('Z'));//expecting 4 for any paramter >= G
+
+
 
