@@ -24,15 +24,14 @@ class UndirectedGraph {
             let first = queue.shift();
             visited.push(first)
 
-            if (first === value) {
+            if (first.toString() === value.toString()) {
                 return true;
             }
 
             adjacent[root].forEach(element => {
-                if (!visited.includes(element)) {
+                if (!visited.toString().includes(element)) {
                     queue.push(element)
                 }
-
             });
 
         }
@@ -107,7 +106,7 @@ function buildBoard() {
         for (let j = 0; j < 8; j++) {
             board.addVertex([j, i]);
             avaliableLocations(oneSpaceMovement([j, i])).forEach(edge => {
-                board.addEdge([j, i], edge)
+                board.addEdge([j, i], edge);
             })
         }
     }
@@ -115,4 +114,6 @@ function buildBoard() {
     return board;
 }
 
-console.log(buildBoard().adjacent);
+// console.log(buildBoard().adjacent);
+console.log(buildBoard().breadthFirstSearch([0, 7], [1, 5]));
+
