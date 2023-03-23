@@ -119,29 +119,32 @@ class UndirectedGraph {
     // return the amount of edges to reach a value
     edgeNumber(value, root = this.vertices[0]) {
         let queue = [root];
-        let visited = [root];
-        let edges = {};
-        let count = 0;
+        let visited = [];
+        let distances = {};
+        let verticies = this.vertices;
+        verticies.forEach(el => {
+            distances[el] = -1;
+        })
 
         while (queue.length > 0) {
             let first = queue.shift();
-            edges[first] = count;
+            visited.push(first);
 
             if (first === value) {
-                return edges;
+                return distances[first] + 1;
+
             } else {
+                distances[first] += 1;
                 this.adjacent[first].forEach(el => {
-                    if (!visited.includes(el)) {
+                    if (!queue.includes(el)) {
                         queue.push(el);
-                        visited.push(el);
+                        distances[el] = distances[first]
                     }
                 })
             }
         }
-
-        return edges;
+        return 'Value not in grid. Please input a valid value';
     }
-
 
 }
 
@@ -163,8 +166,8 @@ example.addEdge('C', 'E');
 example.addEdge('D', 'F');
 example.addEdge('F', 'G');
 
-console.log(example.edgeNumber('D'));
 
 
 
+console.log(example.edgeNumber('value'))
 
