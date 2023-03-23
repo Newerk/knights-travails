@@ -93,7 +93,7 @@ class UndirectedGraph {
         this.edges++;
     }
 
-    breadthFirstSearch(root, value) {
+    breadthFirstSearch(value, root = this.vertices[0]) {
         let queue = [root];
         let visited = [];
         let adjacent = this.adjacent;
@@ -166,8 +166,6 @@ example.addEdge('C', 'E');
 example.addEdge('D', 'F');
 example.addEdge('F', 'G');
 
+// console.log(example.edgeNumber('B'))
 
-
-
-console.log(example.edgeNumber('value'))
-
+console.log(buildBoard().edgeNumber([3, 3]))
