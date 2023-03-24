@@ -63,7 +63,7 @@ function buildBoard() {
     for (let i = 7; i >= 0; i--) {
         for (let j = 0; j < 8; j++) {
             board.addVertex([j, i]);
-            avaliableLocations(oneSpaceMovement([j, i])).forEach(edge => {
+            avaliableLocations(knightMovement([j, i])).forEach(edge => {
                 board.addEdge([j, i], edge);
             })
         }
@@ -131,17 +131,23 @@ class UndirectedGraph {
             visited.push(first);
 
             if (first === value) {
-                return distances[first] + 1;
+                return `shortest path is ${distances[first] + 1} moves`;
 
             } else {
                 distances[first] += 1;
-                this.adjacent[first].forEach(el => {
-                    if (!queue.includes(el)) {
-                        queue.push(el);
-                        distances[el] = distances[first]
+
+                for (let el = 0; el < this.adjacent[first].length; el++) {
+                    const element = this.adjacent[first][el];
+                    if (!queue.includes(element) && !visited.includes(element)) {
+                        if (value.toString() === element.toString()) {
+                            return `shortest path is ${distances[first] += 1} moves`;
+                        }
+                        queue.push(element);
+                        distances[element] = distances[first];
                     }
-                })
+                }
             }
+
         }
         return 'Value not in grid. Please input a valid value';
     }
@@ -168,4 +174,4 @@ example.addEdge('F', 'G');
 
 // console.log(example.edgeNumber('B'))
 
-console.log(buildBoard().edgeNumber([3, 3]))
+console.log(buildBoard().edgeNumber([5, 2], [0, 4]));
