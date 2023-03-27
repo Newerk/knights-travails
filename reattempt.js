@@ -126,22 +126,31 @@ class UndirectedGraph {
             distances[el] = -1;
         })
 
+        let path = [];
+
+        if (value.toString() === root.toString()) {
+            console.log(`You made it in 0 moves!  Here's your path`);
+            return `[${value}]`;
+        }
+
         while (queue.length > 0) {
             let first = queue.shift();
             visited.push(first);
-            console.log(`[${first}]`)
 
-            if (first.toString() === value.toString()) {
-                return `shortest path is ${distances[first] + 1} moves`;
+            if (first === value) {
+                console.log(`shortest path is ${distances[first] + 1} moves`);
+                return;
 
             } else {
+
                 distances[first] += 1;
 
                 for (let el = 0; el < this.adjacent[first].length; el++) {
                     const element = this.adjacent[first][el];
                     if (!queue.includes(element) && !visited.includes(element)) {
                         if (value.toString() === element.toString()) {
-                            return `shortest path is ${distances[first] += 1} moves`;
+                            console.log(`shortest path is ${distances[first] + 1} moves`);
+                            return;
                         }
                         queue.push(element);
                         distances[element] = distances[first];
@@ -175,4 +184,4 @@ example.addEdge('F', 'G');
 
 // console.log(example.edgeNumber('B'))
 
-console.log(buildBoard().edgeNumber([0, 0], [0, 0]));
+console.log(buildBoard().edgeNumber([0, 6], [0, 0]));
