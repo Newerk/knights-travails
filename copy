@@ -93,8 +93,31 @@ class UndirectedGraph {
         this.edges++;
     }
 
+    breadthFirstSearch(value, root = this.vertices[0]) {
+        let queue = [root];
+        let visited = [];
+        let adjacent = this.adjacent;
+
+        while (queue.length > 0) {
+            let first = queue.shift();
+            visited.push(first)
+
+            if (first.toString() === value.toString()) {
+                return true;
+            }
+
+            adjacent[root].forEach(element => {
+                if (!visited.toString().includes(element)) {
+                    queue.push(element)
+                }
+            });
+
+        }
+        return false;
+    }
+
     // return the amount of edges to reach a value
-    shortestPath(value, root = this.vertices[0]) {
+    edgeNumber(value, root = this.vertices[0]) {
         let queue = [root];
         let visited = [];
         let distances = {};
@@ -102,44 +125,64 @@ class UndirectedGraph {
         verticies.forEach(el => {
             distances[el] = -1;
         })
+
+        let path = [];
+
         if (value.toString() === root.toString()) {
             console.log(`You made it in 0 moves!  Here's your path`);
             return `[${value}]`;
         }
 
         while (queue.length > 0) {
-            let current = queue.shift();
-            visited.push(current);
+            let first = queue.shift();
+            visited.push(first);
 
-            if (current === value) {
-                console.log(`shortest path is ${distances[current] + 1} moves`);
+            if (first === value) {
+                console.log(`shortest path is ${distances[first] + 1} moves`);
                 return;
 
             } else {
-                distances[current] += 1;
-                for (let i = 0; i < this.adjacent[current].length; i++) {
-                    const element = this.adjacent[current][i];
-                    if (!queue.toString().includes(element) && !visited.toString().includes(element)) {
-                        queue.push(element);
-                        distances[element] = distances[current];
-                    }
 
-                    if (element.toString() === value.toString()) {
-                        console.log(`shortest path is ${distances[current] + 1} moves`);
-                        return;
+                distances[first] += 1;
+
+                for (let el = 0; el < this.adjacent[first].length; el++) {
+                    const element = this.adjacent[first][el];
+                    if (!queue.includes(element) && !visited.includes(element)) {
+                        if (value.toString() === element.toString()) {
+                            console.log(`shortest path is ${distances[first] + 1} moves`);
+                            console.log(visited)
+                            return;
+                        }
+                        queue.push(element);
+                        distances[element] = distances[first];
                     }
                 }
             }
-    
+
         }
-        console.log(visited)
-        return 'Value not in grid. Please input a valid coordinate';
+        return 'Value not in grid. Please input a valid value';
     }
 
 }
 
+let example = new UndirectedGraph();
+example.addVertex('A');
+example.addVertex('B');
+example.addVertex('C');
+example.addVertex('D');
+example.addVertex('E');
+example.addVertex('F');
+example.addVertex('G');
+example.addEdge('A', 'B');
+example.addEdge('A', 'C');
+example.addEdge('A', 'D');
+example.addEdge('B', 'C');
+example.addEdge('B', 'D');
+example.addEdge('C', 'D');
+example.addEdge('C', 'E');
+example.addEdge('D', 'F');
+example.addEdge('F', 'G');
 
-console.log(buildBoard().shortestPath([0, 6], [0, 0]));
-// console.log(avaliableLocations(knightMovement([0, 2])))
+// console.log(example.edgeNumber('B'))
 
-
+console.log(buildBoard().edgeNumber([0, 6], [0, 0]));

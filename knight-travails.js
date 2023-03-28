@@ -128,7 +128,7 @@ function breadthFirstSearch(root, value) {
                     console.log(`found value`)
                     visited.push(value);
                     console.log(`visted: ${visited}`)
-                    // return;
+                    return;
                 }
                 queue.push(node)
 
