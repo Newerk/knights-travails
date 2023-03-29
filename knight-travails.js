@@ -146,32 +146,14 @@ class Graph {
                     distances[element] = distances[current];
                 }
             }
-
         }
-        return 'Value not in grid. Please input a valid coordinate';
     }
 
 }
 
 buildBoard().shortestPath([0, 0], [3, 3]);
+buildBoard().shortestPath([0, 7], [3, 3]);
+buildBoard().shortestPath([2, 5], [1, 7]);
+buildBoard().shortestPath([4, 4], [4, 4]);
+buildBoard().shortestPath([2, 1], [0, 0]);
 
-// let example = new Graph();
-// example.addVertex('A');
-// example.addVertex('B');
-// example.addVertex('C');
-// example.addVertex('D');
-// example.addVertex('E');
-// example.addVertex('F');
-// example.addVertex('G');
-// example.addEdge('A', 'B');
-// example.addEdge('A', 'C');
-// example.addEdge('A', 'D');
-// example.addEdge('B', 'C');
-// example.addEdge('B', 'D');
-// example.addEdge('C', 'D');
-// example.addEdge('C', 'E');
-// example.addEdge('D', 'F');
-// example.addEdge('F', 'G');
-
-
-// example.shortestPath('E')
