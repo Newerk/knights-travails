@@ -151,6 +151,7 @@ class UndirectedGraph {
                         if (value.toString() === element.toString()) {
                             console.log(`shortest path is ${distances[first] + 1} moves`);
                             console.log(visited)
+                            
                             return;
                         }
                         queue.push(element);
@@ -183,6 +184,6 @@ example.addEdge('C', 'E');
 example.addEdge('D', 'F');
 example.addEdge('F', 'G');
 
-// console.log(example.edgeNumber('B'))
+console.log(example.edgeNumber('B'))
 
-console.log(buildBoard().edgeNumber([0, 6], [0, 0]));
+// console.log(buildBoard().edgeNumber([0, 6], [0, 0]));

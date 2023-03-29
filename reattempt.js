@@ -99,9 +99,43 @@ class UndirectedGraph {
         let visited = [];
         let distances = {};
         let verticies = this.vertices;
+        let path = [];
         verticies.forEach(el => {
             distances[el] = -1;
         })
+
+        //iterate through the visited list backwards. if the popped value from the is a parent of the end element(this updates as we go along), then store it in the path(might have to use .unshift(). but not sure yet)
+        const buildPath = (start, end, visitedArray, pathArray) => {
+            // if (start === end) {
+            //     pathArray.unshift(start);
+            //     console.log(`path: ${pathArray}`)
+            //     return pathArray;
+            // }
+
+            for (const key in this.adjacent[start]) {
+                const element = this.adjacent[start][key];
+                if (element === end) {
+                    pathArray.unshift(element);
+                    pathArray.unshift(start);
+                    console.log(`path: ${pathArray}`)
+                    return pathArray;
+                }
+            }
+
+            visitedArray.pop();
+            let predecessor = visitedArray[visitedArray.length - 1];
+
+            for (const key in this.adjacent[predecessor]) {
+                const element = this.adjacent[predecessor][key];
+                if (element === end) {
+                    pathArray.unshift(element);
+                    end = predecessor;
+                }
+            }
+
+            return buildPath(start, end, visitedArray, pathArray)
+        }
+
         if (value.toString() === root.toString()) {
             console.log(`You made it in 0 moves!  Here's your path`);
             return `[${value}]`;
@@ -111,35 +145,53 @@ class UndirectedGraph {
             let current = queue.shift();
             visited.push(current);
 
-            if (current === value) {
+            if (current.toString() === value.toString()) {
                 console.log(`shortest path is ${distances[current] + 1} moves`);
+
                 return;
 
             } else {
+
                 distances[current] += 1;
                 for (let i = 0; i < this.adjacent[current].length; i++) {
                     const element = this.adjacent[current][i];
-                    if (!queue.toString().includes(element) && !visited.toString().includes(element)) {
+                    if (!queue.includes(element) && !visited.includes(element)) {
+                        if (value.toString() === element.toString()) {
+                            console.log(`shortest path is ${distances[current] + 1} moves`);
+                            visited.push(element);
+                            return buildPath(root, element, visited, path);
+                        }
                         queue.push(element);
                         distances[element] = distances[current];
                     }
-
-                    if (element.toString() === value.toString()) {
-                        console.log(`shortest path is ${distances[current] + 1} moves`);
-                        return;
-                    }
                 }
             }
-    
+
         }
-        console.log(visited)
         return 'Value not in grid. Please input a valid coordinate';
     }
 
 }
 
+buildBoard().shortestPath([3, 3], [0, 0]);
 
-console.log(buildBoard().shortestPath([0, 6], [0, 0]));
-// console.log(avaliableLocations(knightMovement([0, 2])))
+let example = new UndirectedGraph();
+example.addVertex('A');
+example.addVertex('B');
+example.addVertex('C');
+example.addVertex('D');
+example.addVertex('E');
+example.addVertex('F');
+example.addVertex('G');
+example.addEdge('A', 'B');
+example.addEdge('A', 'C');
+example.addEdge('A', 'D');
+example.addEdge('B', 'C');
+example.addEdge('B', 'D');
+example.addEdge('C', 'D');
+example.addEdge('C', 'E');
+example.addEdge('D', 'F');
+example.addEdge('F', 'G');
 
 
+example.shortestPath('E')
